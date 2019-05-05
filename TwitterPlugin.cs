@@ -176,7 +176,27 @@ namespace DNWS
                 context.SaveChanges();
             }
         }
-
+        public static void DeleteUser(string name)
+        {
+            User user = new User();
+            user.Name = name;
+            using (var context = new TweetContext())
+            {
+                List<User> userlist = context.Users.Where(b => b.Name.Equals(name)).ToList();
+                if (userlist.Count <= 0)
+                {
+                    throw new Exception("User not exists");
+                }
+                /*List<User> follows = context.Users.ToList();               
+                foreach (User following in follows)
+                {
+                    Twitter twitter = new Twitter(following.Name);
+                    twitter.RemoveFollowing(user.Name);
+                }*/
+                context.Users.Remove(userlist[0]);
+                context.SaveChanges();
+            }
+        }
         public static bool IsValidUser(string name, string password)
         {
             using (var context = new TweetContext())
@@ -273,7 +293,7 @@ namespace DNWS
         }
 
 
-        public HTTPResponse GetResponse(HTTPRequest request)
+        public virtual HTTPResponse GetResponse(HTTPRequest request)
         {
             HTTPResponse response = new HTTPResponse(200);
             StringBuilder sb = new StringBuilder();
@@ -286,6 +306,8 @@ namespace DNWS
             {
                 sb.Append("<h1>Twitter</h1>");
                 sb = GenLoginPage(sb);
+                sb.Append(String.Format("List User <a href=\"/API\">Click</a> "));
+
             }
             else
             {
