@@ -187,12 +187,6 @@ namespace DNWS
                 {
                     throw new Exception("User not exists");
                 }
-                /*List<User> follows = context.Users.ToList();               
-                foreach (User following in follows)
-                {
-                    Twitter twitter = new Twitter(following.Name);
-                    twitter.RemoveFollowing(user.Name);
-                }*/
                 context.Users.Remove(userlist[0]);
                 context.SaveChanges();
             }
