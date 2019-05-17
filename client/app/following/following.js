@@ -13,7 +13,7 @@ angular.module('followingList', ['ngRoute'])
       $http.get('http://localhost:8080/twitterapi/following/', requestOptions).then(function (response) {
         self.followings = response.data;
         });
-        self.Follow = function Follow(name) {
+        self.Follow = function Follow(name) {   //600611030 give me advice anc teach me
             const tmp = "followingname=" + encodeURIComponent(name);
             $http.post('http://localhost:8080/twitterapi/following/', tmp, requestOptions);
         }
