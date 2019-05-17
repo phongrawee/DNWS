@@ -12,6 +12,15 @@ angular.module('followingList', ['ngRoute'])
 
       $http.get('http://localhost:8080/twitterapi/following/', requestOptions).then(function (response) {
         self.followings = response.data;
-      });
+        });
+        self.Follow = function Follow(name) {
+            const tmp = "followingname=" + encodeURIComponent(name);
+            $http.post('http://localhost:8080/twitterapi/following/', tmp, requestOptions);
+        }
+        self.UnFollow = function UnFollow(name) {
+            $http.defaults.headers.delete = { 'X-session': $rootScope.x_session };
+            const tmp = "followingname=" + encodeURIComponent(name);
+            $http.delete('http://localhost:8080/twitterapi/following/?' + tmp);
+        }
     }]
 });
